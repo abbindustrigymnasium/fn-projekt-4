@@ -1,9 +1,10 @@
 -- CreateTable
 CREATE TABLE "Country" (
     "id" SERIAL NOT NULL,
-    "Country_name" TEXT NOT NULL,
-    "water_quality" INTEGER NOT NULL,
-    "Water_comsumption" INTEGER NOT NULL,
+    "countryName" TEXT NOT NULL,
+    "waterQuality" INTEGER NOT NULL,
+    "waterComsumption" INTEGER NOT NULL,
+    "userScore" INTEGER NOT NULL,
 
     CONSTRAINT "Country_pkey" PRIMARY KEY ("id")
 );
@@ -11,9 +12,10 @@ CREATE TABLE "Country" (
 -- CreateTable
 CREATE TABLE "Continent" (
     "id" SERIAL NOT NULL,
-    "Continent_name" TEXT NOT NULL,
-    "water_quality" INTEGER NOT NULL,
-    "Water_comsumption" INTEGER NOT NULL,
+    "continentName" TEXT NOT NULL,
+    "waterQuality" INTEGER NOT NULL,
+    "waterComsumption" INTEGER NOT NULL,
+    "userScore" INTEGER NOT NULL,
 
     CONSTRAINT "Continent_pkey" PRIMARY KEY ("id")
 );

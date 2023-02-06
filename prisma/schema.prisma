@@ -12,16 +12,18 @@ datasource db {
 
 model Country {
   id                Int @id @default(autoincrement())
-  Country_name      String
-  water_quality     Int
-  Water_comsumption Int
+  countryName      String
+  waterQuality     Int
+  waterComsumption Int
+  userScore Int
 }
 
 model Continent {
   id                Int @id @default(autoincrement())
-  Continent_name    String
-  water_quality     Int
-  Water_comsumption Int
+  continentName    String
+  waterQuality     Int
+  waterComsumption Int
+  userScore Int
 }
 
 model User {
