@@ -5,7 +5,7 @@ import { app } from "./app";
 app.post("/votes", async (req, res) => {
   try {
     const { water_vote, userId } = req.body;
-    console.log(req.body)
+    
     const newVote = await prisma.vote.create({
       data: {
         userId: userId,
