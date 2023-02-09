@@ -2,3 +2,8 @@
 
 # Databas schema
 ![alt text](https://github.com/abbindustrigymnasium/fn-projekt-4/blob/main/databas%20schema.png)
+Det som finns i själva databasen är:
+* Vote
+* User
+* Country
+* Continent
