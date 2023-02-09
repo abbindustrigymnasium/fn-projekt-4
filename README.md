@@ -3,9 +3,10 @@
 # Databas schema
 <img src="https://github.com/abbindustrigymnasium/fn-projekt-4/blob/main/databas%20schema.png" width="600" height="350">
 
-Det som finns i själva databasen är:
+#### Det som finns i själva databasen är:
 * Vote
 * User
 * Country
 * Continent
-### Hur håller allt ihop?
+#### Hur håller allt ihop?
+Inom user så lagrar vi persnolig information om just din användare, som man sedan använder för att rösta. Denna rösten lagras i en specifik user som är inloggad.
