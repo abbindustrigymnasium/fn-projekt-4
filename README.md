@@ -8,3 +8,4 @@ Det som finns i själva databasen är:
 * User
 * Country
 * Continent
+### Hur håller allt ihop?
