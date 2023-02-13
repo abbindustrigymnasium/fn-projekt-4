@@ -11,32 +11,32 @@ datasource db {
 }
 
 model Country {
-  id               Int    @id @default(autoincrement())
-  countryName      String
-  waterQuality     Int
-  waterComsumption Int
-  userScore        Int
+  id                Int @id @default(autoincrement())
+  countryName       String
+  waterQuality      Int
+  waterComsumption  Int
+  userScore Int
 }
 
 model Continent {
-  id               Int    @id @default(autoincrement())
-  continentName    String
-  waterQuality     Int
-  waterComsumption Int
-  userScore        Int
+  id                Int @id @default(autoincrement())
+  continentName     String
+  waterQuality      Int
+  waterComsumption  Int
+  userScore         Int
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  name     String?
-  password String?
+  id                Int     @id @default(autoincrement())
+  email             String  @unique
+  name              String?
+  password          String?
   votes    Vote[]
 }
 
 model Vote {
-  id         Int  @id @default(autoincrement())
-  user       User @relation(fields: [userId], references: [id])
-  userId     Int
-  water_vote Int
+  id                Int  @id @default(autoincrement())
+  userId            Int
+  water_vote        Int
+  user User @relation(fields: [userId], references: [id])
 }
