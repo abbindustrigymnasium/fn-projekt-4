@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 3030
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
 
 
+
+//Users 
 app.post("/users", async (req, res) => {
     try {
       const { email, name, password } = req.body
@@ -32,10 +34,6 @@ app.post("/users", async (req, res) => {
       })    
     }
   })
-  app.get("/lol", async (req, res) => {
-    const user = await prisma.user.findMany()
-    res.json(user)
-})
 
 
   app.get("/users", async (req, res) => {
@@ -86,8 +84,17 @@ app.post("/votes/create/", async (req, res) => {
       });
     }
   });
-  
-  app.post("/countries/create/", async (req, res) => {
+
+
+
+
+
+
+
+
+  //Countries
+
+  app.post("/countries", async (req, res) => {
     try {
       const { countryName, waterQuality, waterComsumption } = req.body
       
@@ -111,7 +118,7 @@ app.post("/votes/create/", async (req, res) => {
     }
 })
 
-app.get("/countries/get", async (req, res) => {
+app.get("/countries", async (req, res) => {
     try {
       const countries = await prisma.country.findMany()
   
@@ -141,40 +148,139 @@ app.delete("/countries/:id", async (req, res) => {
     }
 })
 
-app.post("/continent/create", async (req, res) => {
+app.put("/countries/:id", async (req, res) => {
     try {
-      const { continentName, waterQuality, waterConsumption, userScore } = req.body
-    
-      const newContinent = await prisma.continent.create({
-        data: {
-            continentName, 
-            waterQuality,
-            waterConsumption,
-            userScore
-        }, 
+      const { vote } = req.body
+      const { id } = req.params
+
+      let country = await prisma.country.findUnique({
+        where: {
+          id : parseInt(id),
+        }
       })
-      res.json(newContinent)
-    } catch (error: any) {
-      console.log(error.message)
-      res.status(500).json({
-        message: "Internal Server Error",
-      })    
-    }
-  })
+      
+      let newScore = country?.userScore;
+      if (typeof newScore === 'number') {
+        if (vote === "yes") newScore = newScore + 1
+        else newScore -= 1
 
-  app.get("/continent/get", async (req, res) => {
-    try {
-        const users = await prisma.continent.findMany()
-
-        res.json(users)
-        console.log(users)
-    } catch (error) {
-        res.status(500).json({
-            message: "Something went wrong",
+        const updatedCountry = await prisma.country.update({
+          where: {
+            id : parseInt(id),
+          },
+          data: {
+            countryName : country?.countryName,
+            waterQuality : country?.waterQuality,
+            waterComsumption : country?.waterComsumption,
+            userScore : newScore,
+          },
         })
+        res.json(updatedCountry)
+      }
+  
+    } catch (error) {
+      res.status(500).json({
+        message: "Something went wrong",
+      })
     }
 })
 
 
-export{app}
+
+
+
+//Continents 
+
+app.post("/continents", async (req, res) => {
+  try {
+    const { continentName, waterQuality, waterComsumption } = req.body
+    
+    let userScore = 0;
+
+    const newContinent = await prisma.continent.create({
+      data: {
+        continentName,
+        waterQuality,
+        waterComsumption : waterComsumption,
+        userScore
+      },
+    })
+
+    res.json(newContinent)
+  } catch (error: any) {
+    console.log(error.message)
+    res.status(500).json({
+      message: "Internal Server Error",
+    })
+  }
+})
+
+app.get("/continents", async (req, res) => {
+  try {
+    const continents = await prisma.continent.findMany()
+
+    res.json(continents)
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
+    })
+  }
+})
+
+app.delete("/continents/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedContinent = await prisma.continent.delete({
+      where: {
+        id : parseInt(id),
+      },
+    })
+
+    res.json(deletedContinent)
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
+    })
+  }
+})
+
+app.put("/continents/:id", async (req, res) => {
+  try {
+    const { vote } = req.body
+    const { id } = req.params
+
+    let continent = await prisma.continent.findUnique({
+      where: {
+        id : parseInt(id),
+      }
+    })
+    
+    let newScore = continent?.userScore;
+    if (typeof newScore === 'number') {
+      if (vote === "yes") newScore = newScore + 1
+      else newScore -= 1
+
+      const updatedCountry = await prisma.continent.update({
+        where: {
+          id : parseInt(id),
+        },
+        data: {
+          continentName : continent?.continentName,
+          waterQuality : continent?.waterQuality,
+          waterComsumption : continent?.waterComsumption,
+          userScore : newScore,
+        },
+      })
+      res.json(updatedCountry)
+    }
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
+    })
+  }
+})
+
+
 
