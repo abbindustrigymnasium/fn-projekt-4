@@ -130,6 +130,24 @@ app.get("/countries", async (req, res) => {
     }
 })
 
+app.get("/countries/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const country = await prisma.country.findUnique({
+      where: {
+        id : parseInt(id),
+      }
+    })
+
+
+    res.json(country)
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
+    })
+  }
+})
+
 app.delete("/countries/:id", async (req, res) => {
     try {
       const { id } = req.params;
@@ -220,6 +238,25 @@ app.get("/continents", async (req, res) => {
     const continents = await prisma.continent.findMany()
 
     res.json(continents)
+  } catch (error: any) {
+    console.log(error.message)
+    res.status(500).json({
+      message: "Something went wrong",
+    })
+  }
+})
+
+app.get("/continents/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const continent = await prisma.continent.findUnique({
+      where: {
+        id : parseInt(id),
+      }
+    })
+
+
+    res.json(continent)
   } catch (error) {
     res.status(500).json({
       message: "Something went wrong",
