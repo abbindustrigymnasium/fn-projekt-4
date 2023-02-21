@@ -1,16 +1,18 @@
 import express from "express"
 import prisma from "./prisma" // importing the prisma instance we created.
 
+const cors = require('cors');
+
 
 const app = express()
-app.use(express.json())
+app.use(express.json(), cors())
 
 const PORT = process.env.PORT || 3030
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
 
 
-app.post("/users/create", async (req, res) => {
+app.post("/users", async (req, res) => {
     try {
       const { email, name, password } = req.body
       // games is an array of string | string[]
@@ -22,7 +24,7 @@ app.post("/users/create", async (req, res) => {
         }, 
       })
       console.log(user)
-      res.json(user)
+      res.json()
     } catch (error: any) {
       console.log(error.message)
       res.status(500).json({
@@ -30,8 +32,13 @@ app.post("/users/create", async (req, res) => {
       })    
     }
   })
+  app.get("/lol", async (req, res) => {
+    const user = await prisma.user.findMany()
+    res.json(user)
+})
 
-  app.get("/users/get", async (req, res) => {
+
+  app.get("/users", async (req, res) => {
     try {
         const user = await prisma.user.findMany()
 
@@ -43,7 +50,7 @@ app.post("/users/create", async (req, res) => {
     }
 })
 
-app.post("/votes/create", async (req, res) => {
+app.post("/votes/create/", async (req, res) => {
     try {
       const { water_vote, userId } = req.body;
       console.log(req.body)
@@ -80,7 +87,7 @@ app.post("/votes/create", async (req, res) => {
     }
   });
   
-  app.post("/countries/create", async (req, res) => {
+  app.post("/countries/create/", async (req, res) => {
     try {
       const { countryName, waterQuality, waterComsumption } = req.body
       
