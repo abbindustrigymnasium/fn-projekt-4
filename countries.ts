@@ -1,6 +1,7 @@
 import express from "express"
 import prisma from "./prisma" // importing the prisma instance we created.
 import {app} from "./app"
+import { get } from "http"
 
 app.post("/countries", async (req, res) => {
     try {
@@ -55,32 +56,40 @@ app.delete("/countries/:id", async (req, res) => {
       })
     }
 })
-/*
-app.put("/users/:id", async (req, res) => {
+
+app.put("/countries/:id", async (req, res) => {
     try {
-      const { name, games } = req.body
+      const { vote } = req.body
       const { id } = req.params
-  
-      const updatedUser = await prisma.user.update({
+
+      let country = await prisma.country.findUnique({
         where: {
-          id,
-        },
-        data: {
-          name,
-          games: {
-            connectOrCreate: games.map((game: string) => ({
-              where: { name: game },
-              create: { name: game },
-            })),
-          },
-        },
+          id : parseInt(id),
+        }
       })
+      
+      let newScore = country?.userScore;
+      if (typeof newScore === 'number') {
+        if (vote === "yes") newScore = newScore + 1
+        else newScore -= 1
+
+        const updatedCountry = await prisma.country.update({
+          where: {
+            id : parseInt(id),
+          },
+          data: {
+            countryName : country?.countryName,
+            waterQuality : country?.waterQuality,
+            waterComsumption : country?.waterComsumption,
+            userScore : newScore,
+          },
+        })
+        res.json(updatedCountry)
+      }
   
-      res.json(updatedUser)
     } catch (error) {
       res.status(500).json({
         message: "Something went wrong",
       })
     }
 })
-*/

@@ -55,32 +55,41 @@ app.delete("/continents/:id", async (req, res) => {
       })
     }
 })
-/*
-app.put("/users/:id", async (req, res) => {
+
+app.put("/continents/:id", async (req, res) => {
     try {
-      const { name, games } = req.body
+      const { vote } = req.body
       const { id } = req.params
-  
-      const updatedUser = await prisma.user.update({
+
+      let continent = await prisma.continent.findUnique({
         where: {
-          id,
-        },
-        data: {
-          name,
-          games: {
-            connectOrCreate: games.map((game: string) => ({
-              where: { name: game },
-              create: { name: game },
-            })),
-          },
-        },
+          id : parseInt(id),
+        }
       })
+      
+      let newScore = continent?.userScore;
+      if (typeof newScore === 'number') {
+        if (vote === "yes") newScore = newScore + 1
+        else newScore -= 1
+
+        const updatedCountry = await prisma.continent.update({
+          where: {
+            id : parseInt(id),
+          },
+          data: {
+            continentName : continent?.continentName,
+            waterQuality : continent?.waterQuality,
+            waterComsumption : continent?.waterComsumption,
+            userScore : newScore,
+          },
+        })
+        res.json(updatedCountry)
+      }
   
-      res.json(updatedUser)
     } catch (error) {
       res.status(500).json({
         message: "Something went wrong",
       })
     }
 })
-*/
+
