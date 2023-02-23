@@ -12,3 +12,6 @@ Våran tanke är att vi ska visa vattenkvaliteten i vatten över hela världen s
 #### Hur håller allt ihop?
 * Inom user så lagrar vi persnolig information om just din användare, som man sedan använder för att rösta. Denna rösten lagras i en specifik user som är inloggad.
 * Inom Country och Continent så lagras all information från mätdata från en csv fil, som vi sedan använder i vår applikation.
+
+#### Frontend Repo
+* https://github.com/abbvichak/FN-project-frontend
